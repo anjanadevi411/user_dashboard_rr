@@ -6,7 +6,7 @@ import { updateSingleUser, getSingleUser } from "../redux/action";
 function EditUser() {
   const dispatch = useDispatch();
   const oneUser = useSelector((state) => state.reducerUsers.user);
-  console.log("oneUser", oneUser);
+  //console.log("oneUser", oneUser);
 
   const navigate = useNavigate();
   const [state, setState] = useState({

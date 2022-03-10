@@ -1,10 +1,11 @@
 import React from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { deleteUser, getAllUsers } from "../redux/action";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function UserList() {
+  const [order, setOrder] = useState("ASC");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.reducerUsers.users);
@@ -18,6 +19,20 @@ function UserList() {
     if (window.confirm("Are you sure, do you want to delete?")) {
       dispatch(deleteUser(id));
       dispatch(getAllUsers());
+    }
+  };
+  const sorting = (col) => {
+    if (order === "ASC") {
+      userData.sort((a, b) =>
+        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+      );
+      setOrder("DSC");
+    }
+    if (order === "DSC") {
+      userData.sort((a, b) =>
+        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+      );
+      setOrder("ASC");
     }
   };
   return (
@@ -36,7 +51,14 @@ function UserList() {
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
-            <th scope="col">Username</th>
+            <th
+              onClick={() => {
+                sorting("username");
+              }}
+              scope="col"
+            >
+              Username
+            </th>
             <th scope="col">Email</th>
             <th scope="col">City</th>
             <th scope="col">Edit</th>
